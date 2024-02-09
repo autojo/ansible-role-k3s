@@ -6,10 +6,9 @@
     state: directory
     mode: 0755
 
-- name: Ensure k3s binary is copied from controller to target host
-  ansible.builtin.copy:
-    src: k3s
-    # TODO: allow airgap to bypass version post-fix
-    dest: "{{ k3s_install_dir }}/k3s-{{ k3s_release_version }}"
+- name: Ensure k3s binary copied from controller to target host
+  ansible.builtin.get_url:
+    url: '{{ webserver }}/{{ k3s_release_version }}/k3s'
+    dest: '{{ k3s_install_dir }}/k3s-{{ k3s_release_version }}'
     mode: 0755
   become: "{{ k3s_become }}"
